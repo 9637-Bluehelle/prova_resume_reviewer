@@ -98,7 +98,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
       const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
   
       if (errorMessage === 'Token has expired or is invalid') {
-        setError('Il codice inserito è errato o non è valido. Riprova.');
+        setError('Il codice inserito è errato o non valido. Riprova.');
       } else if (errorMessage.includes('New password should be different from the old password')) {
         setError('La nuova password non può essere uguale a quella attuale.');
       } else {
@@ -106,9 +106,6 @@ export default function LoginPage({ onLogin }: LoginProps) {
       }
     } finally {
       await supabase.auth.signOut();
-      setNewPassword('');
-      setConfirmPassword('');
-      setOtpCode('');
       setIsLoading(false);
     }
   };
@@ -116,11 +113,13 @@ export default function LoginPage({ onLogin }: LoginProps) {
   const handleResendAndRestart = async () => {
     setIsLoading(true);
     setError(null);
-    setOtpCode('');
-  
+    
     try {
+      await new Promise(resolve => setTimeout(resolve, 3000));
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail);
       if (resetError) throw resetError;
+
+      setOtpCode('');
     } catch (err) {
       const errMessage = err instanceof Error ? err.message === 'Too Many Requests' || err.message === 'email rate limit exceeded' ? 'Sono state effettuate troppe richieste, riprova più tardi': err.message : 'Errore durante l\'invio del codice';
       setError(errMessage);
@@ -236,14 +235,14 @@ export default function LoginPage({ onLogin }: LoginProps) {
 
               {(error || loginError) && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex flex-col items-start gap-3">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-3 pr-5">
                     <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                     <p className="text-red-800 text-sm">{(error || loginError)}</p>
                   </div>
 
-                  { error?.includes('Il codice inserito è errato o non è valido. Riprova.') && (
-                    <div className= "flex flex-row gap-3">
-                      <p className="text-red-800 text-sm">Se hai la certezza che il codice sia corretto,<br/>allora è probabile che NON sia più valido.</p>
+                  { error?.includes('Il codice inserito è errato o non valido. Riprova.') && (
+                    <div className= "pl-8 flex flex-row items-center justify-center gap-5">
+                      <p className="text-red-800 text-sm">Se hai la certezza che il<br/> codice è corretto,<br/>allora è probabile che <br/>NON è più valido.</p>
                       <Button
                         type="button"
                         variant="destructive"
@@ -252,7 +251,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
                         disabled={isLoading}
                         className="text-xs w-fit"
                       >
-                        {isLoading ? 'Invio in corso...' : 'Invia un nuovo codice'}
+                        {isLoading ? 'Invio in corso...' : 'Invia nuovo codice'}
                       </Button>
                     </div>
                   )}
