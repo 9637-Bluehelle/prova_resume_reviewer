@@ -459,7 +459,7 @@ function ControlTab() {
             <div>
               <label className="block text-xs font-medium mb-1 text-muted-foreground">Stato</label>
               <div className="flex gap-1">
-                {['ok', 'warning', 'error'].map(s => {
+                {['ok', 'warning', 'ko'].map(s => {
                   const isActive = filters.status.includes(s);
                   return (
                     <button
