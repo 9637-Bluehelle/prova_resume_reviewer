@@ -5,7 +5,7 @@ import { usePaymentMethods, useCreatePaymentMethod, useUpdatePaymentMethod } fro
 import { useCloses } from "@/hooks/use-closes";
 import { useCompanySettings, useUpdateCompanySettings } from "@/hooks/use-company-settings";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Plus, Edit2, Check, X, Wallet, Eye, AlertTriangle, CheckCircle, Upload, Building2, RotateCcw, Lock, LockOpen, Filter, SortDesc, SortAsc, Search, ChevronUp, ListFilter, ArrowDownAz, ArrowUpAZ, Clock, History, UploadCloud, AlertCircle, Trash2, MailCheck } from "lucide-react";
+import { Plus, Edit2, Check, X, Wallet, Eye, AlertTriangle, CheckCircle, Upload, Building2, RotateCcw, Lock, LockOpen, Filter, SortDesc, SortAsc, Search, ChevronUp, ListFilter, ArrowDownAz, ArrowUpAZ, Clock, History, UploadCloud, AlertCircle, Trash2, MailCheck, ChevronDown, Option } from "lucide-react";
 import { format } from "date-fns";
 import { useAuth } from "@/hooks/use-auth";
 //import * as XLSX from 'xlsx';
