@@ -5,7 +5,7 @@ import { usePaymentMethods, useCreatePaymentMethod, useUpdatePaymentMethod } fro
 import { useCloses } from "@/hooks/use-closes";
 import { useCompanySettings, useUpdateCompanySettings } from "@/hooks/use-company-settings";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Plus, Edit2, Check, X, Wallet, Eye, AlertTriangle, CheckCircle, Upload, Building2, RotateCcw, Lock, LockOpen, Filter, SortDesc, SortAsc, Search, ChevronUp, ListFilter, ArrowDownAz, ArrowUpAZ, Clock, History, UploadCloud, AlertCircle, Trash2, MailCheck, ChevronDown, Option } from "lucide-react";
+import { Plus, Edit2, Check, X, Wallet, Eye, AlertTriangle, CheckCircle, Upload, Building2, RotateCcw, Lock, LockOpen, Filter, SortDesc, SortAsc, Search, ChevronUp, ListFilter, ArrowDownAz, ArrowUpAZ, Clock, History, UploadCloud, AlertCircle, Trash2, MailCheck, ChevronDown, Menu } from "lucide-react";
 import { format } from "date-fns";
 import { useAuth } from "@/hooks/use-auth";
 //import * as XLSX from 'xlsx';
@@ -26,7 +26,7 @@ export default function AdminPage() {
       <div className="sm:hidden mb-6">
         <div className="relative group">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-            <Option size={16} strokeWidth={2.5} />
+            <Menu size={16} strokeWidth={2.5} />
           </div>
 
           <select
