@@ -24,16 +24,26 @@ export default function AdminPage() {
     <Layout>
       <PageHeader title="Amministrazione" description="Gestisci negozi e impostazioni" />
       <div className="sm:hidden mb-6">
-        <select
-          value={activeTab}
-          onChange={(e) => setActiveTab(e.target.value as typeof activeTab)}
-          className="w-full p-3 rounded-xl border-gray-200 font-bold text-primary shadow-sm focus:ring-primary focus:border-primary"
-        >
-          <option value="control">Controllo Cassa</option>
-          <option value="stores">Negozi</option>
-          <option value="payments">Pagamenti</option>
-          <option value="users">Utenti</option>
-        </select>
+        <div className="relative group">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+          </div>
+
+          <select
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value as typeof activeTab)}
+            className="w-full appearance-none bg-background border border-input hover:border-primary/50 rounded-xl pl-10 pr-10 py-3 text-sm font-medium ring-offset-background transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm"
+          >
+            <option value="control">Controllo Cassa</option>
+            <option value="stores">Negozi</option>
+            <option value="payments">Pagamenti</option>
+            <option value="users">Utenti</option>
+          </select>
+
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
       </div>
       
       <div className="hidden sm:flex gap-2 mb-6 overflow-x-auto pb-2">
