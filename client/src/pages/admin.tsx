@@ -23,8 +23,20 @@ export default function AdminPage() {
   return (
     <Layout>
       <PageHeader title="Amministrazione" description="Gestisci negozi e impostazioni" />
+      <div className="sm:hidden mb-6">
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value as typeof activeTab)}
+          className="w-full p-3 rounded-xl border-gray-200 font-bold text-primary shadow-sm focus:ring-primary focus:border-primary"
+        >
+          <option value="control">Controllo Cassa</option>
+          <option value="stores">Negozi</option>
+          <option value="payments">Pagamenti</option>
+          <option value="users">Utenti</option>
+        </select>
+      </div>
       
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+      <div className="hidden sm:flex gap-2 mb-6 overflow-x-auto pb-2">
         {[
           { id: 'control', label: 'Controllo Cassa' },
           { id: 'stores', label: 'Negozi' }, 
