@@ -577,7 +577,7 @@ const handleExportImages = async () => {
                 <option value="all">Tutti i Negozi</option>
                 {stores?.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
-              <Store className="text-black-200 w-4 h-4 mr-1" />
+              <Store className="text-black-200 w-4 h-4 mr-3" />
             </Card>
           )}
         </div>
