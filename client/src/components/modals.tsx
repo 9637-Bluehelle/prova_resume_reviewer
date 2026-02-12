@@ -209,15 +209,15 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
         </div>
       </div>
       <div className="p-4 h-[55px] flex items-center justify-center text-white/50 text-xs">
-        {showMessage && (
+        {/*showMessage && (
           <div className="bottom-10 left-0 right-0 flex flex-col items-center gap-2 px-4 pointer-events-none">
             
-            {/* visibile solo se il dispositivo ha un mouse */}
+            {/* visibile solo se il dispositivo ha un mouse *}
             <div className={`hidden lg:hover:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}><Move className="w-4 h-4" />
               <span>Tieni premuto il tasto sinistro del mouse e trascina per spostare • Puoi anche utilizzare la rotellina del mouse per lo zoom</span>
             </div>
 
-            {/* visibile solo su dispositivi touch */}
+            {/* visibile solo su dispositivi touch *}
               <div className={`flex lg:hover:hidden items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}> <div className="relative">
                 <Hand className="w-5 h-5 text-primary" />
                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-ping" />
@@ -227,7 +227,7 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
               </span>
             </div>
           </div>
-        )}
+        )*/}
       </div>
     </div>
   );
@@ -434,3 +434,4 @@ export const Spinner =()=>{
     </div>
   )
 }
+
