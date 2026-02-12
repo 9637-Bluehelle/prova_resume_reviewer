@@ -556,7 +556,7 @@ const handleExportImages = async () => {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+        <div className="flex flex-row gap-3 w-full md:w-auto">
           <Card className="p-2 flex items-center gap-2 w-1/2 md:min-w-[180px]">
             {/*<Calendar className="text-primary w-4 h-4 ml-1" />*/}
             <input 
