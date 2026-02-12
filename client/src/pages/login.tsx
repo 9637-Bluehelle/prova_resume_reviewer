@@ -46,7 +46,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
       if (resetError) throw resetError;
       setResetStep('verify');
     } catch (err) {
-      const errMessage = err instanceof Error ? err.message === 'Too Many Requests' || err.message === '429' ? 'Sono state effettuate troppe richieste, riprova più tardi': err.message : 'Errore durante l\'invio del codice';
+      const errMessage = err instanceof Error ? err.message === 'Too Many Requests' || err.message === 'email rate limit exceeded' ? 'Sono state effettuate troppe richieste, riprova più tardi': err.message : 'Errore durante l\'invio del codice';
       setError(errMessage);
     } finally {
       setIsLoading(false);
