@@ -46,7 +46,8 @@ export default function LoginPage({ onLogin }: LoginProps) {
       if (resetError) throw resetError;
       setResetStep('verify');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Errore nell\'invio del codice');
+      const errMessage = err instanceof Error ? err.message === 'Too Many Requests' || err.message === '429' ? 'Sono state effettuate troppe richieste, riprova più tardi': err.message : 'Errore durante l\'invio del codice';
+      setError(errMessage);
     } finally {
       setIsLoading(false);
     }
@@ -148,6 +149,14 @@ export default function LoginPage({ onLogin }: LoginProps) {
                     required
                   />
                 </div>
+
+                {(error || loginError) && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-red-800 text-sm">{(error || loginError)}</p>
+                  </div>
+                )}
+
               </div>
               <Button 
                 type="submit" 
