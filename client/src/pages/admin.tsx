@@ -875,8 +875,8 @@ const handleResendInvite = async (email: string) => {
                 onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
                 className={isSortMenuOpen ? "bg-gray-100" : ""}
               >
-                <ListFilter className="shrink-0 w-4 h-4 mr-2" />
-                <span className="hidden md:inline">Ordina</span>
+                <ListFilter className="shrink-0 w-4 h-4" />
+                <span className="ml-2 hidden md:inline">Ordina</span>
               </Button>
 
               {/* Menu a comparsa (Dropdown) */}
