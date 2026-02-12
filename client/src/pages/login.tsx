@@ -61,6 +61,13 @@ export default function LoginPage({ onLogin }: LoginProps) {
     try {
       if (newPassword !== confirmPassword) {
         setError("Le password non corrispondono");
+        setIsLoading(false);
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        setError("La password deve avere almeno 6 caratteri");
+        setIsLoading(false);
         return;
       }
 
@@ -69,12 +76,17 @@ export default function LoginPage({ onLogin }: LoginProps) {
         token: otpCode,
         type: 'recovery',
       });
+
       if (verifyError) throw verifyError;
 
       const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
-      if (updateError) throw updateError;
+
+      if (updateError) {
+        await supabase.auth.signOut(); 
+        throw updateError;
+      }
 
       setResetStep('success');
     } catch (err) {
@@ -82,9 +94,26 @@ export default function LoginPage({ onLogin }: LoginProps) {
   
       if (errorMessage === 'Token has expired or is invalid') {
         setError('Il codice inserito è errato o non è valido. Riprova.');
+      } else if (errorMessage.includes('same as the old password')) {
+        setError('La nuova password non può essere uguale a quella attuale.');
       } else {
         setError(errorMessage);
       }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendAndRestart = async () => {
+    setIsLoading(true);
+    setError(null);
+    setOtpCode('');
+  
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail);
+      if (resetError) throw resetError;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Errore nel re-invio');
     } finally {
       setIsLoading(false);
     }
@@ -189,8 +218,26 @@ export default function LoginPage({ onLogin }: LoginProps) {
 
               {(error || loginError) && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                     <p className="text-red-800 text-sm">{(error || loginError)}</p>
+                  </div>
+
+                  { error?.includes('Token has expired or is invalid') && (
+                    <div>
+                      <p className="text-red-800 text-sm">Il codice OTP non è più valido.</p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={handleResendAndRestart}
+                        disabled={isLoading}
+                        className="text-xs w-fit"
+                      >
+                        {isLoading ? 'Invio in corso...' : 'Invia un nuovo codice'}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )}
 
