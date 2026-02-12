@@ -477,7 +477,7 @@ function ControlTab() {
                           : "bg-white text-black-200 border-input hover:bg-gray-100"
                       )}
                     >
-                      {s}
+                      {s == 'ko' ? 'ERROR' : s}
                     </button>
                   );
                 })}
