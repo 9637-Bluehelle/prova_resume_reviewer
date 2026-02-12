@@ -24,6 +24,56 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Stati aggiuntivi per il Touch
+  const [initialDistance, setInitialDistance] = useState<number | null>(null);
+
+  // Helper per calcolare la distanza tra due dita
+  const getDistance = (touch1: React.Touch, touch2: React.Touch) => {
+    return Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+  };
+
+  // GESTIONE TOUCH (MOBILE)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      // Trascinamento singolo dito
+      if (zoom <= 1) return;
+      setIsDragging(true);
+      const touch = e.touches[0];
+      setStartPos({ x: touch.clientX - position.x, y: touch.clientY - position.y });
+    } else if (e.touches.length === 2) {
+      // Inizio Pinch-to-zoom
+      setIsDragging(false);
+      const dist = getDistance(e.touches[0], e.touches[1]);
+      setInitialDistance(dist);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 1 && isDragging) {
+      // Spostamento
+      const touch = e.touches[0];
+      setPosition({
+        x: touch.clientX - startPos.x,
+        y: touch.clientY - startPos.y
+      });
+    } else if (e.touches.length === 2 && initialDistance !== null) {
+      // Zoom progressivo
+      const newDist = getDistance(e.touches[0], e.touches[1]);
+      const delta = newDist / initialDistance;
+      setZoom(prev => {
+        const newZoom = Math.min(Math.max(prev * delta, 1), 4);
+        if (newZoom === 1) setPosition({ x: 0, y: 0 });
+        return newZoom;
+      });
+      setInitialDistance(newDist); // Aggiorna per il prossimo frame
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    setInitialDistance(null);
+  };
   
   //zoom anche con rondella 
   useEffect(() => {
@@ -139,6 +189,9 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{ cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
       >
         <div 
@@ -150,7 +203,7 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
           <img 
             src={src} 
             alt="Dettaglio Scontrino" 
-            className="max-h-[85vh] max-w-[95vw] object-contain shadow-2xl select-none"
+            className="max-h-[85vh] max-w-[95vw] object-contain shadow-2xl select-none pointer-events-none"
             draggable={false}
           />
         </div>
@@ -160,15 +213,13 @@ const ImageLightbox = ({ src, onClose, onDownload }: ImageLightboxProps) => {
           <div className="bottom-10 left-0 right-0 flex flex-col items-center gap-2 px-4 pointer-events-none">
             
             {/* visibile solo se il dispositivo ha un mouse */}
-            <div className={`hidden [@media(hover:hover)]:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}>
-              <Move className="w-4 h-4" />
+            <div className={`hidden lg:hover:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}><Move className="w-4 h-4" />
               <span>Tieni premuto il tasto sinistro del mouse e trascina per spostare • Puoi anche utilizzare la rotellina del mouse per lo zoom</span>
             </div>
 
             {/* visibile solo su dispositivi touch */}
-            <div className={`flex [@media(hover:none)]:flex md:hidden items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}>
-              <div className="relative">
-                <Hand className="w-5 h-5 text-primary animate-pulse" />
+              <div className={`flex lg:hover:hidden items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-white/80 text-xs ${isExiting ? 'animate-collapse' : 'animate-expand'}`}> <div className="relative">
+                <Hand className="w-5 h-5 text-primary" />
                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-ping" />
               </div>
               <span className="text-sm leading-tight">
