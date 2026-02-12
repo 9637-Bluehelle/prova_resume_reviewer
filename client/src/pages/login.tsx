@@ -41,6 +41,10 @@ export default function LoginPage({ onLogin }: LoginProps) {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
+    setNewPassword('');
+    setConfirmPassword('');
+    setOtpCode('');
+
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail);
       if (resetError) throw resetError;
@@ -102,6 +106,9 @@ export default function LoginPage({ onLogin }: LoginProps) {
       }
     } finally {
       await supabase.auth.signOut();
+      setNewPassword('');
+      setConfirmPassword('');
+      setOtpCode('');
       setIsLoading(false);
     }
   };
@@ -115,7 +122,8 @@ export default function LoginPage({ onLogin }: LoginProps) {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail);
       if (resetError) throw resetError;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Errore nel re-invio');
+      const errMessage = err instanceof Error ? err.message === 'Too Many Requests' || err.message === 'email rate limit exceeded' ? 'Sono state effettuate troppe richieste, riprova più tardi': err.message : 'Errore durante l\'invio del codice';
+      setError(errMessage);
     } finally {
       setIsLoading(false);
     }
@@ -227,18 +235,18 @@ export default function LoginPage({ onLogin }: LoginProps) {
               </div> 
 
               {(error || loginError) && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex flex-row items-start gap-3">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex flex-col items-start gap-3">
                   <div className="flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                     <p className="text-red-800 text-sm">{(error || loginError)}</p>
                   </div>
 
                   { error?.includes('Il codice inserito è errato o non è valido. Riprova.') && (
-                    <div className= "flex flex-col gap-3">
+                    <div className= "flex flex-row gap-3">
                       <p className="text-red-800 text-sm">Se hai la certezza che il codice sia corretto,<br/>allora è probabile che NON sia più valido.</p>
                       <Button
                         type="button"
-                        variant="ghost"
+                        variant="destructive"
                         size="sm"
                         onClick={handleResendAndRestart}
                         disabled={isLoading}
@@ -269,7 +277,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
               <Button 
                 type="submit" 
                 size="lg" 
-                onClick={() => { setShowResetPassword(false); setResetStep('request')}}
+                onClick={() => { setShowResetPassword(false); setResetStep('request'); setError(null); setResetEmail(''); setOtpCode(''); setNewPassword(''); setConfirmPassword('')}}
                 className="w-full font-medium flex items-center justify-center gap-2"
               >
                 Vai al Login
@@ -278,7 +286,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
           )}
 
           {resetStep !== 'success' && (
-            <button onClick={() => { setShowResetPassword(false); setResetStep('request');setError(null); setResetEmail(''); setOtpCode(''); setNewPassword(''); setConfirmPassword('')}} className="w-full mt-4 text-neutral-500 hover:text-neutral-800 text-sm">
+            <button onClick={() => { setShowResetPassword(false); setResetStep('request'); setError(null); setResetEmail(''); setOtpCode(''); setNewPassword(''); setConfirmPassword('')}} className="w-full mt-4 text-neutral-500 hover:text-neutral-800 text-sm">
               Annulla e torna al login
             </button>
           )}
