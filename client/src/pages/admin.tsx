@@ -26,13 +26,18 @@ export default function AdminPage() {
       <div className="sm:hidden mb-6">
         <div className="relative group">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+            <Option size={16} strokeWidth={2.5} />
           </div>
 
           <select
             value={activeTab}
             onChange={(e) => setActiveTab(e.target.value as typeof activeTab)}
-            className="w-full appearance-none bg-background border border-input hover:border-primary/50 rounded-xl pl-10 pr-10 py-3 text-sm font-medium ring-offset-background transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-sm"
+            className={cn(
+              "w-full appearance-none bg-background border-2 border-input rounded-2xl shadow-sm",
+              "pl-12 pr-10 py-4 text-lg font-bold tracking-tight text-foreground",
+              "focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary",
+              "transition-all cursor-pointer active:scale-[0.98]"
+            )}
           >
             <option value="control">Controllo Cassa</option>
             <option value="stores">Negozi</option>
@@ -41,7 +46,7 @@ export default function AdminPage() {
           </select>
 
           <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+           <ChevronDown size={16} strokeWidth={2.5} />
           </div>
         </div>
       </div>
