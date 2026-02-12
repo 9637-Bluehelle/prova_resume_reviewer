@@ -94,7 +94,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
   
       if (errorMessage === 'Token has expired or is invalid') {
         setError('Il codice inserito è errato o non è valido. Riprova.');
-      } else if (errorMessage.includes('same as the old password')) {
+      } else if (errorMessage.includes('New password should be different from the old password')) {
         setError('La nuova password non può essere uguale a quella attuale.');
       } else {
         setError(errorMessage);
@@ -223,7 +223,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
                     <p className="text-red-800 text-sm">{(error || loginError)}</p>
                   </div>
 
-                  { error?.includes('Token has expired or is invalid') && (
+                  { error?.includes('Il codice inserito è errato o non è valido. Riprova.') && (
                     <div>
                       <p className="text-red-800 text-sm">Il codice OTP non è più valido.</p>
                       <Button
