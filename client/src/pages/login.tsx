@@ -217,18 +217,18 @@ export default function LoginPage({ onLogin }: LoginProps) {
               </div> 
 
               {(error || loginError) && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex items-start gap-3">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 flex flex-row items-start gap-3">
                   <div className="flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                     <p className="text-red-800 text-sm">{(error || loginError)}</p>
                   </div>
 
                   { error?.includes('Il codice inserito è errato o non è valido. Riprova.') && (
-                    <div>
-                      <p className="text-red-800 text-sm">Il codice OTP non è più valido.</p>
+                    <div className= "flex flex-col gap-3">
+                      <p className="text-red-800 text-sm">Se hai la certezza che il codice sia corretto,<br/>allora è probabile che NON sia più valido.</p>
                       <Button
                         type="button"
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
                         onClick={handleResendAndRestart}
                         disabled={isLoading}
