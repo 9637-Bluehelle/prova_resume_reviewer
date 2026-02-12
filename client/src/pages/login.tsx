@@ -100,6 +100,7 @@ export default function LoginPage({ onLogin }: LoginProps) {
         setError(errorMessage);
       }
     } finally {
+      await supabase.auth.signOut();
       setIsLoading(false);
     }
   };
