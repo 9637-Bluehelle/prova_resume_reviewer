@@ -296,21 +296,21 @@ const ClosureDetailsModal = ({  onClose, data, stores, isBlur=true }: ClosureDet
   };
 
   return (
-    <div className={cn("fixed inset-0 z-50 flex items-center justify-center p-4", isBlur? "bg-black/40 backdrop-blur-sm": "")}>
-      <div className="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
-        
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Dettaglio Chiusura</h2>
-          <Button size="sm" variant="ghost" onClick={onClose}>
-            <X className="w-4 h-4" />
-          </Button>
+    <div className={cn("fixed inset-0 z-50 flex items-center justify-center p-4", isBlur ? "bg-black/40 backdrop-blur-sm" : "")}>
+    <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl animate-in fade-in zoom-in-95 max-h-[90vh] flex flex-col overflow-hidden">
+      
+      <div className="flex items-center justify-between p-6 border-b bg-white z-10">
+        <h2 className="text-xl font-bold">Dettaglio Chiusura</h2>
+        <Button size="sm" variant="ghost" onClick={onClose}>
+          <X className="w-4 h-4" />
+        </Button>
+      </div>
+      
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="bg-gray-50 rounded-xl p-4">
+          <div className="text-sm text-muted-foreground mb-1">Negozio</div>
+          <div className="font-bold">{storeName}</div>
         </div>
-        
-        <div className="space-y-4">
-          <div className="bg-gray-50 rounded-xl p-4">
-            <div className="text-sm text-muted-foreground mb-1">Negozio</div>
-            <div className="font-bold">{storeName}</div>
-          </div>
 
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="text-sm text-muted-foreground mb-1">Data</div>
